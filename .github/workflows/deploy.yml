@@ -23,6 +23,8 @@ jobs:
           token: ${{ secrets.WIKI_SRC_PAT }}
           path: ./bdlmwiki
       - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
       - name: install trunk
         run: cargo install --version 0.21.4 trunk
       - name: configure pages
