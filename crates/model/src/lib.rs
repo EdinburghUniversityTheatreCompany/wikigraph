@@ -43,6 +43,15 @@ pub struct LinkGraph {
     pub edges: Vec<(usize, usize)>,
 }
 
+impl Object {
+    pub fn is_markdown(&self) -> bool {
+        match self {
+            Object::File(FileObject::Markdown) => true,
+            _ => false,
+        }
+    }
+}
+
 impl ObjectKey {
     // pub fn parse_markdown_link(link_str: &str) -> Option<String> {
     //     let s = link_str.split("/");
@@ -51,9 +60,6 @@ impl ObjectKey {
 
     pub fn from_link_str(mut link_str: &str, location: &str) -> Option<ObjectKey> {
         if let Some(n) = link_str.find("#") {
-            link_str = &link_str[..n];
-        }
-        if let Some(n) = link_str.find("?") {
             link_str = &link_str[..n];
         }
 
@@ -74,13 +80,9 @@ impl ObjectKey {
             location
         };
 
-        let Some(mut s) = links::normalize_relative_to(link_str, base) else {
+        let Ok(s) = links::lexical_normalize_relative_to(link_str, base) else {
             return None;
         };
-
-        if s.ends_with(".md") {
-            s.drain(..s.len() - 3);
-        }
 
         // if !combo.exists() {
         //     let mut combo2 = combo.clone();

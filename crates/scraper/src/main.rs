@@ -1,6 +1,6 @@
 use std::{
     fs, io,
-    ops::{Deref, DerefMut},
+    ops::{ControlFlow, Deref, DerefMut},
     path::*,
 };
 use wikigraph_model::*;
@@ -28,9 +28,15 @@ impl CorpusWalker {
     pub fn intern_unknown(&mut self, key: ObjectKey) -> usize {
         match key {
             ObjectKey::File(path) => {
-                let mut combo = self.corpus.to_owned();
-                combo.push(&path);
-                let found = combo.exists();
+                let on_disk = links::extend_path_with_link(&self.corpus, &self.corpus, &path);
+                let found = links::permute_markdown_aliases(on_disk, |p| {
+                    if p.is_file() {
+                        ControlFlow::Break(())
+                    } else {
+                        ControlFlow::Continue(())
+                    }
+                })
+                .is_break();
                 self.intern_mystery_file(path, found)
             }
             ObjectKey::External(link_str) => self.intern_external(link_str),
@@ -73,8 +79,8 @@ impl CorpusWalker {
                 let mut canonical_path = path.canonicalize()?;
                 canonical_path.set_extension("");
                 let path = canonical_path.strip_prefix(&self.corpus).unwrap();
-                let Some(location) =
-                    links::normalize_relative_to(&links::path_to_link(path).unwrap(), "")
+                let Ok(location) =
+                    links::lexical_normalize_relative_to(&links::path_to_link(path).unwrap(), "")
                 else {
                     continue;
                 };

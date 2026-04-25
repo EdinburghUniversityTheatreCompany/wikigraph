@@ -54,7 +54,7 @@ impl App {
                         y: angle.sin() * radius,
                     });
                     let label = match key {
-                        ObjectKey::File(s) => format!("/{s}"),
+                        ObjectKey::File(s) => s.to_owned(),
                         ObjectKey::External(s) => s.to_owned(),
                     };
                     n.set_label(label);
@@ -71,23 +71,24 @@ impl App {
 
         for i in 0..graph.node_count() {
             let n = NodeIndex::new(i);
-            let (mut out, mut inc, mut importance) = (0, 0, 0);
 
+            let mut importance = graph.g()[n].payload().object.is_markdown() as usize as f32;
+            let (mut out, mut inc) = (0, 0);
             for m in graph.g().neighbors_directed(n, Outgoing) {
-                if let Object::File(FileObject::Markdown) = &graph.g()[m].payload().object {
-                    importance += 1;
+                if graph.g()[m].payload().object.is_markdown() {
+                    importance += 1.;
                 }
                 out += 1;
             }
             for m in graph.g().neighbors_directed(n, Incoming) {
-                if let Object::File(FileObject::Markdown) = &graph.g()[m].payload().object {
-                    importance += 1;
+                if graph.g()[m].payload().object.is_markdown() {
+                    importance += 1.;
                 }
                 inc += 1;
             }
 
             let object = graph.g_mut().node_weight_mut(n).unwrap().payload_mut();
-            object.importance = 0.5 * (6. * importance as f32 + 1.).sqrt();
+            object.importance = 0.5 * (6. * importance + 1.).sqrt();
             object.altriusm = (out as f32 - inc as f32) / (out as f32 + inc as f32);
         }
 
