@@ -1,6 +1,7 @@
 #![cfg(target_arch = "wasm32")]
 mod app;
 mod model;
+mod platform;
 mod shapes;
 
 use wasm_bindgen::JsCast;
@@ -31,18 +32,7 @@ pub async fn run() -> Result<(), JsValue> {
         .dyn_into::<HtmlCanvasElement>()
         .map_err(|_| JsValue::from_str("failed to cast to HtmlCanvasElement"))?;
 
-    let request = Request::new_with_str("/wikigraph/graph.json")?;
-    let resp: Response = window
-        .fetch_with_request(&request)
-        .await?
-        .dyn_into()
-        .map_err(|_| JsValue::from_str("failed to cast to Response"))?;
-
-    let text: String = resp
-        .text()?
-        .await?
-        .as_string()
-        .ok_or_else(|| JsValue::from_str("failed to cast to string"))?;
+    let text = platform::fetch_body("/wikigraph/graph.json").await?;
 
     let graph: LinkGraph =
         serde_json::from_str(&text).map_err(|err| JsValue::from_str(&err.to_string()))?;

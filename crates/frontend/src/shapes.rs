@@ -2,7 +2,9 @@ use egui::{
     Color32, FontFamily, FontId, Pos2, Shape, Stroke, Vec2,
     epaint::{CircleShape, TextShape},
 };
-use egui_graphs::{DisplayEdge, DisplayNode, DrawContext, EdgeProps, Node, NodeProps};
+use egui_graphs::{
+    DisplayEdge, DisplayNode, DrawContext, EdgeProps, MetadataFrame, Node, NodeProps,
+};
 use petgraph::{EdgeType, csr::IndexType};
 use wikigraph_model::{FileObject, Object};
 
@@ -62,6 +64,32 @@ impl From<EdgeProps<UiLink>> for LinkShape {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Third {
+    First,
+    Second,
+    Third,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct Nineslice {
+    pub x: Third,
+    pub y: Third,
+}
+
+impl Nineslice {
+    pub const CENTER: Nineslice = Nineslice {
+        x: Third::Second,
+        y: Third::Second,
+    };
+
+    pub fn may_connect_to(self, rhs: Nineslice) -> bool {
+        self == Nineslice::CENTER
+            || rhs == Nineslice::CENTER
+            || (self.x != rhs.x && self.y != rhs.y)
+    }
+}
+
 impl ObjectShape {
     pub fn pos(&self) -> Pos2 {
         self.stable_pos.pos()
@@ -80,6 +108,30 @@ impl ObjectShape {
             Object::External => Color32::from_rgb(200, 200, 100),
         }
     }
+
+    pub fn nineslice_in(&self, meta: &MetadataFrame) -> Nineslice {
+        // FIXME: this only half-occlusion.. probably need to fork upstream :((.
+        let radius = meta.canvas_to_screen_size(self.radius);
+        let bb_br = meta.canvas_to_screen_pos(self.pos()) + Vec2::splat(radius);
+        match (bb_br.x < 0., bb_br.y < 0.) {
+            (true, true) => Nineslice {
+                x: Third::First,
+                y: Third::First,
+            },
+            (true, false) => Nineslice {
+                x: Third::First,
+                y: Third::Second,
+            },
+            (false, true) => Nineslice {
+                x: Third::Second,
+                y: Third::First,
+            },
+            (false, false) => Nineslice {
+                x: Third::Second,
+                y: Third::Second,
+            },
+        }
+    }
 }
 
 impl<Ty: EdgeType, Ix: IndexType> DisplayNode<UiObject, UiLink, Ty, Ix> for ObjectShape {
@@ -89,6 +141,10 @@ impl<Ty: EdgeType, Ix: IndexType> DisplayNode<UiObject, UiLink, Ty, Ix> for Obje
 
     fn shapes(&mut self, ctx: &DrawContext) -> Vec<Shape> {
         if let ObjectActivity::Hidden = self.activity {
+            return Vec::new();
+        }
+
+        if self.nineslice_in(ctx.meta) != Nineslice::CENTER {
             return Vec::new();
         }
 
@@ -102,8 +158,10 @@ impl<Ty: EdgeType, Ix: IndexType> DisplayNode<UiObject, UiLink, Ty, Ix> for Obje
             stroke: Stroke::NONE,
         });
 
-        if ctx.meta.zoom == self.last_scale || self.last_scale.is_nan() {
-            self.last_scale = ctx.meta.zoom;
+        let is_zooming = ctx.meta.zoom != self.last_scale && !self.last_scale.is_nan();
+        self.last_scale = ctx.meta.zoom;
+
+        if radius >= 6. && !is_zooming {
             let galley = ctx.ctx.fonts_mut(|f| {
                 f.layout_no_wrap(
                     self.label.clone(),
@@ -124,7 +182,6 @@ impl<Ty: EdgeType, Ix: IndexType> DisplayNode<UiObject, UiLink, Ty, Ix> for Obje
                 )),
             ]
         } else {
-            self.last_scale = ctx.meta.zoom;
             vec![shape]
         }
     }
@@ -153,6 +210,14 @@ impl<Ty: EdgeType, Ix: IndexType> DisplayEdge<UiObject, UiLink, Ty, Ix, ObjectSh
     ) -> Vec<Shape> {
         if start_node.display().activity != ObjectActivity::Active
             || end_node.display().activity != ObjectActivity::Active
+        {
+            return Vec::new();
+        }
+
+        if !start_node
+            .display()
+            .nineslice_in(ctx.meta)
+            .may_connect_to(end_node.display().nineslice_in(ctx.meta))
         {
             return Vec::new();
         }

@@ -15,26 +15,28 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - name: checkout project
+        uses: actions/checkout@v6
       - name: checkout wiki
         uses: actions/checkout@v6
         with:
           repository: soqb/bdlmwiki
           token: ${{ secrets.WIKI_SRC_PAT }}
           path: ./bdlmwiki
-      - uses: dtolnay/rust-toolchain@stable
+      - name: install rust stable
+        uses: dtolnay/rust-toolchain@stable
         with:
           targets: wasm32-unknown-unknown
       - name: install trunk
         run: cargo install --version 0.21.4 trunk
       - name: configure pages
         uses: actions/configure-pages@v5
-      - name: build graph
+      - name: analyze wiki
         run: cargo run -p wikigraph-scraper -- ./bdlmwiki
       - name: build with trunk
         run: |
           cd crates/frontend
-          trunk build --release --public-url=/wikigraph/
+          trunk build
           cd ../..
       - name: upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -47,6 +49,6 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Deploy to GitHub Pages
+      - name: deploy to pages
         id: deployment
         uses: actions/deploy-pages@v5
