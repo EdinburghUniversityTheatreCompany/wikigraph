@@ -1,0 +1,9 @@
+[package]
+name = "wikigraph-model"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+serde = { version = "1.0.228", default-features = false, features = ["std"] }
+serde_derive = "1.0.228"
+indexmap = { version = "2.14.0", features = ["serde"] }
