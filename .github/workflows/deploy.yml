@@ -34,7 +34,7 @@ jobs:
       - name: build with trunk
         run: |
           cd crates/frontend
-          trunk build
+          trunk build --release
           cd ../..
       - name: upload artifact
         uses: actions/upload-pages-artifact@v3
