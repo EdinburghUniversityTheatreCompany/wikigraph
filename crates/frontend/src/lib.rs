@@ -31,7 +31,7 @@ pub async fn run() -> Result<(), JsValue> {
         .dyn_into::<HtmlCanvasElement>()
         .map_err(|_| JsValue::from_str("failed to cast to HtmlCanvasElement"))?;
 
-    let request = Request::new_with_str("/graph.json")?;
+    let request = Request::new_with_str("/wikigraph/graph.json")?;
     let resp: Response = window
         .fetch_with_request(&request)
         .await?
