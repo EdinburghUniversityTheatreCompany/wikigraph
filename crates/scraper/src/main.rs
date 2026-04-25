@@ -124,7 +124,10 @@ impl CorpusWalker {
 }
 
 fn main() -> anyhow::Result<()> {
-    let corpus: PathBuf = "/home/seth/projects/web/bdlmwiki/".into();
+    let corpus: PathBuf = std::env::args_os()
+        .nth(1)
+        .ok_or_else(|| anyhow::anyhow!("expected a path"))?
+        .into();
     let graph = CorpusWalker::walk(&corpus)?;
 
     let json = serde_json::to_string(&graph)?;

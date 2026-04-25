@@ -1,0 +1,50 @@
+name: build and deploy to pages
+run-name: deploy ${{ github.ref }}
+on:
+  push:
+    branches: [trunk]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+jobs: 
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: checkout wiki
+        uses: actions/checkout@v6
+        with:
+          repository: soqb/bdlmwiki
+          token: ${{ secrets.WIKI_SRC_PAT }}
+          path: ./bdlmwiki
+      - uses: dtolnay/rust-toolchain@stable
+      - name: install trunk
+        run: cargo install --version 0.21.4 trunk
+      - name: configure pages
+        uses: actions/configure-pages@v5
+      - name: build graph
+        run: cargo run -p wikigraph-scraper -- ./bdlmwiki
+      - name: build with trunk
+        run: |
+          cd crates/frontend
+          trunk build
+          cd ../..
+      - name: upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./crates/frontend/dist
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
