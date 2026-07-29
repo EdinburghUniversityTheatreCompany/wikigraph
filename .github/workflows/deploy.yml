@@ -1,6 +1,8 @@
 name: build and deploy to pages
 run-name: deploy ${{ github.ref }}
 on:
+  repository_dispatch:
+    types: [deploy]
   push:
     branches: [trunk]
   workflow_dispatch:
