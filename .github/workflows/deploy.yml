@@ -30,7 +30,7 @@ jobs:
         with:
           targets: wasm32-unknown-unknown
       - name: install trunk
-        run: cargo install --version 0.21.14 trunk
+        run: cargo install --version 0.22.0-beta.2 trunk
       - name: configure pages
         uses: actions/configure-pages@v5
       - name: analyze wiki
