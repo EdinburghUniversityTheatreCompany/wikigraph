@@ -25,12 +25,18 @@ jobs:
           repository: ${{ vars.WIKI_REPO }}
           token: ${{ secrets.WIKI_SRC_PAT }}
           path: ./bdlmwiki
+      - name: install trunk
+        uses: robinraju/release-downloader@v1
+        with:
+          repository: ${{ vars.TRUNK_REPO }}
+          tag: ${{ vars.TRUNK_RELEASE_TAG }}
+          fileName: ${{ vars.TRUNK_RELEASE_FILENAME }}
+          extract: true
+          extract-path: .
       - name: install rust stable
         uses: dtolnay/rust-toolchain@stable
         with:
           targets: wasm32-unknown-unknown
-      - name: install trunk
-        run: cargo install --version 0.22.0-beta.2 trunk
       - name: configure pages
         uses: actions/configure-pages@v5
       - name: analyze wiki
@@ -38,7 +44,7 @@ jobs:
       - name: build with trunk
         run: |
           cd crates/frontend
-          trunk build
+          ../../trunk build
           cd ../..
       - name: upload artifact
         uses: actions/upload-pages-artifact@v3
