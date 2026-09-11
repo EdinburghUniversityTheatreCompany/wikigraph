@@ -5,6 +5,9 @@ lockfile = true
 rust = "latest"
 aube = "latest"
 
+[hooks]
+postinstall = "aube install"
+
 [env]
 WIKI_PATH = { default = "./bdlmwiki" }
 URL_ROOT = { default = "https://wiki.bedlamtheatre.co.uk" }
