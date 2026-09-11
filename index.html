@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/svg+xml" href="assets/favicon.ico" />
+        <link rel="stylesheet" href="assets/style.css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>wiki graph</title>
+        <link rel="preload" href="graph.json" />
+        <script type="module" src="src/main.ts"></script>
+    </head>
+    <body>
+        <main>
+            <div id="sigma-container"></div>
+            <details id="sidebar">
+                <summary>settings & details</summary>
+                <div id="settings">
+                    <label for="include-external">include external <small>(slow!)</small></label>
+                    <input id="include-external" type="checkbox" />
+                    <label for="show-succ">highlight successors</label>
+                    <input id="show-succ" type="checkbox" />
+                    <label for="show-pred">highlight predecessors</label>
+                    <input id="show-pred" type="checkbox" />
+                    <label for="highlight-falloff">highlight falloff factor</label>
+                    <input id="highlight-falloff" type="range" min=0 max=1 step=0.01 value=0.5 />
+                    <button id="reflow" type="button">reflow</button>
+                </div>
+                <div id="details" class="hidden">
+                    <label>selected</label><a id="node-label" target="_blank"></a>
+                    <label>harmonic centrality</label><div id="stat-harmonic-centrality"></div>
+                    <label>betweenness centrality</label><div id="stat-betweenness-centrality"></div>
+                    <label>page rank</label><div id="stat-page-rank"></div>
+                </div>
+            </details>
+        </main>
+    </body>
+</html>

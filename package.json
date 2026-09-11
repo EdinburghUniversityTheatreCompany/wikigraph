@@ -1,0 +1,20 @@
+{
+  "name": "wiki-webgraph",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "devDependencies": {
+    "@types/events": "^3.0.3",
+    "typescript": "~6.0.2",
+    "vite": "^8.0.9"
+  },
+  "dependencies": {
+    "@fontsource-variable/noto-serif": "^5.3.0",
+    "colorjs.io": "^0.7.1",
+    "graphology": "^0.26.0",
+    "graphology-layout": "^0.6.1",
+    "graphology-layout-forceatlas2": "^0.10.1",
+    "graphology-layout-physics": "^0.0.4",
+    "sigma": "4.0.0-beta.5"
+  }
+}

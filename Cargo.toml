@@ -1,3 +1,7 @@
 [workspace]
 resolver = "3"
-members = ["crates/scraper", "crates/frontend", "crates/model"]
+members = ["crates/scraper", "crates/model"]
+
+[profile.dev]
+# extremely compelling optimization --- just try it without! :))
+opt-level = 1

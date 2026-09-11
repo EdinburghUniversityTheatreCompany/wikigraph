@@ -1,0 +1,53 @@
+[settings]
+lockfile = true
+lockfile_mode = "generate"
+
+[tools]
+rust = "latest"
+aube = "latest"
+
+[env]
+_.path = "node_modules/.bin"
+WIKI_PATH = { default = "./bdlmwiki" }
+URL_ROOT = { default = "https://wiki.bedlamtheatre.co.uk" }
+GRAPH_PATH = { default = "./graph.json" }
+
+[tasks.watch]
+depends = ["watch-analysis", "watch-site"]
+
+[tasks.watch-site]
+run = "aubr vite serve"
+
+[tasks.watch-analysis]
+run = '''
+./bin/watchexec -w crates/model -w crates/scraper/ -r -- cargo run -p wikigraph-scraper $WIKI_PATH $GRAPH_PATH --url-root $URL_ROOT
+'''
+
+[tasks.watch-analysis.env]
+WIKI_PATH = { required = true }
+GRAPH_PATH = { required = true }
+URL_ROOT = { required = true }
+
+[tasks.build]
+run = [
+  { task = "build-analysis" },
+  { task = "build-site" },
+]
+
+[tasks.build-analysis]
+run = '''
+cargo run -p wikigraph-scraper --release -- $WIKI_PATH $GRAPH_PATH --url-root $URL_ROOT
+'''
+
+[tasks.build-site]
+wait_for = ["build-analysis"]
+run = "aubr vite build"
+
+[tasks.serve]
+depends = ["build"]
+run = '''
+./bin/sws --port $PORT -d dist 
+'''
+
+[tasks.serve.env]
+PORT = { default = "1111" }

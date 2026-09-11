@@ -1,3 +1,6 @@
 /target/
+/node_modules/
+/bdlmwiki
 dist/
 graph.json
+mise.local.toml

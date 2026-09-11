@@ -5,6 +5,10 @@ edition = "2024"
 
 [dependencies]
 anyhow = "1.0.102"
+argh = "0.1.19"
+jiff = { version = "0.2.35", default-features = false, features = ["std"] }
 pulldown-cmark = { version = "0.13.3", default-features = false }
 serde_json = { version = "1.0.149", default-features = false, features = ["std"] }
+tracing = "0.1.44"
+tracing-subscriber = "0.3.23"
 wikigraph-model = { path = "../model" }

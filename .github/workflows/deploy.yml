@@ -19,37 +19,24 @@ jobs:
     steps:
       - name: checkout project
         uses: actions/checkout@v6
+      - name: mise install
+        uses: jdx/mise-action@v4
       - name: checkout wiki
         uses: actions/checkout@v6
         with:
           repository: ${{ vars.WIKI_REPO }}
           token: ${{ secrets.WIKI_SRC_PAT }}
           path: ./bdlmwiki
-      - name: install trunk
-        uses: robinraju/release-downloader@v1
-        with:
-          repository: ${{ vars.TRUNK_REPO }}
-          tag: ${{ vars.TRUNK_RELEASE_TAG }}
-          fileName: ${{ vars.TRUNK_RELEASE_FILENAME }}
-          extract: true
-          extract-path: .
-      - name: install rust stable
-        uses: dtolnay/rust-toolchain@stable
-        with:
-          targets: wasm32-unknown-unknown
+      - name: analyze wiki & build site
+        run: mise run build
+        env:
+          WIKI_PATH: ./bdlmwiki
       - name: configure pages
         uses: actions/configure-pages@v5
-      - name: analyze wiki
-        run: cargo run -p wikigraph-scraper -- ./bdlmwiki
-      - name: build with trunk
-        run: |
-          cd crates/frontend
-          ../../trunk build
-          cd ../..
       - name: upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./crates/frontend/dist
+          path: ./dist
   deploy:
     runs-on: ubuntu-latest
     needs: build

@@ -1,0 +1,37 @@
+#!/usr/bin/env -S mise tool-stub
+
+tool = "github:static-web-server/static-web-server"
+version = "2.44.0"
+bin = "static-web-server"
+
+[lock]
+
+[lock.platforms]
+
+[lock.platforms.linux-arm64]
+url = "https://github.com/static-web-server/static-web-server/releases/download/v2.44.0/static-web-server-v2.44.0-aarch64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:0d986a28e0e609172c2d3a13a27dbfe19d5d425807167152a94cb71301783f91"
+
+[lock.platforms.linux-arm64-musl]
+url = "https://github.com/static-web-server/static-web-server/releases/download/v2.44.0/static-web-server-v2.44.0-aarch64-unknown-linux-musl.tar.gz"
+checksum = "sha256:e9d6bd0b05dea441028eb4e690249ab585d711b311646bf9f420fcea01449670"
+
+[lock.platforms.linux-x64]
+url = "https://github.com/static-web-server/static-web-server/releases/download/v2.44.0/static-web-server-v2.44.0-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:e52f775824a8a44a79d5ee3debb5174442d36cdaaef86a12bfc14920aedd1c57"
+
+[lock.platforms.linux-x64-musl]
+url = "https://github.com/static-web-server/static-web-server/releases/download/v2.44.0/static-web-server-v2.44.0-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:804bc0c31c78385ac04e9a36f3c2aa3d3170eb77d66807c2a1660c56b2026bb1"
+
+[lock.platforms.macos-arm64]
+url = "https://github.com/static-web-server/static-web-server/releases/download/v2.44.0/static-web-server-v2.44.0-aarch64-apple-darwin.tar.gz"
+checksum = "sha256:5f22e1d0072a0f5bf8bb32468885d6ba7bc9df470d37f16bdd71f9697832964f"
+
+[lock.platforms.macos-x64]
+url = "https://github.com/static-web-server/static-web-server/releases/download/v2.44.0/static-web-server-v2.44.0-x86_64-apple-darwin.tar.gz"
+checksum = "sha256:484708863fa0fa39fbfe1a46d99c3671f46c72862dff724da2b480cdc79ced1b"
+
+[lock.platforms.windows-x64]
+url = "https://github.com/static-web-server/static-web-server/releases/download/v2.44.0/static-web-server-v2.44.0-x86_64-pc-windows-msvc.zip"
+checksum = "sha256:473011fa047b59649ff68e10c58fb303adf1255cfb6341273fb101e07c9c9b6d"
