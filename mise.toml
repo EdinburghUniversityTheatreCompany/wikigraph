@@ -7,7 +7,6 @@ rust = "latest"
 aube = "latest"
 
 [env]
-_.path = "node_modules/.bin"
 WIKI_PATH = { default = "./bdlmwiki" }
 URL_ROOT = { default = "https://wiki.bedlamtheatre.co.uk" }
 GRAPH_PATH = { default = "./graph.json" }
@@ -16,7 +15,7 @@ GRAPH_PATH = { default = "./graph.json" }
 depends = ["watch-analysis", "watch-site"]
 
 [tasks.watch-site]
-run = "aubr vite serve"
+run = "aube run vite serve"
 
 [tasks.watch-analysis]
 run = '''
@@ -41,7 +40,7 @@ cargo run -p wikigraph-scraper --release -- $WIKI_PATH $GRAPH_PATH --url-root $U
 
 [tasks.build-site]
 wait_for = ["build-analysis"]
-run = "aubr vite build"
+run = "aube run vite build"
 
 [tasks.serve]
 depends = ["build"]

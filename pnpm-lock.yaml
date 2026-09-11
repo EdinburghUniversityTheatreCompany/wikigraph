@@ -4,13 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-time:
-  '@fontsource-variable/noto-serif@5.3.0': 2026-07-19T03:51:14.907Z
-  '@types/events@3.0.3': 2023-11-07T02:27:13.483Z
-  colorjs.io@0.7.1: 2026-07-24T16:34:21.631Z
-  graphology-layout-physics@0.0.4: 2026-08-14T06:58:23.381Z
-  sigma@4.0.0-beta.5: 2026-08-20T15:27:43.899Z
-
 importers:
 
   .:
@@ -33,9 +26,6 @@ importers:
       graphology-layout-physics:
         specifier: ^0.0.4
         version: 0.0.4(graphology@0.26.0(graphology-types@0.24.8))
-      graphology-types:
-        specifier: '>=0.24.0'
-        version: 0.24.8
       sigma:
         specifier: 4.0.0-beta.5
         version: 4.0.0-beta.5(graphology-types@0.24.8)
@@ -61,66 +51,48 @@ packages:
   '@rolldown/binding-darwin-arm64@1.0.0-rc.16':
     resolution: {integrity: sha512-rNz0yK078yrNn3DrdgN+PKiMOW8HfQ92jQiXxwX8yW899ayV00MLVdaCNeVBhG/TbH3ouYVObo8/yrkiectkcQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
-    os:
-    - darwin
-    cpu:
-    - arm64
+    cpu: [arm64]
+    os: [darwin]
 
   '@rolldown/binding-linux-arm64-gnu@1.0.0-rc.16':
     resolution: {integrity: sha512-+tHktCHWV8BDQSjemUqm/Jl/TPk3QObCTIjmdDy/nlupcujZghmKK2962LYrqFpWu+ai01AN/REOH3NEpqvYQg==}
     engines: {node: ^20.19.0 || >=22.12.0}
-    os:
-    - linux
-    cpu:
-    - arm64
-    libc:
-    - glibc
+    cpu: [arm64]
+    os: [linux]
+    libc: [glibc]
 
   '@rolldown/binding-linux-arm64-musl@1.0.0-rc.16':
     resolution: {integrity: sha512-3fPzdREH806oRLxpTWW1Gt4tQHs0TitZFOECB2xzCFLPKnSOy90gwA7P29cksYilFO6XVRY1kzga0cL2nRjKPg==}
     engines: {node: ^20.19.0 || >=22.12.0}
-    os:
-    - linux
-    cpu:
-    - arm64
-    libc:
-    - musl
+    cpu: [arm64]
+    os: [linux]
+    libc: [musl]
 
   '@rolldown/binding-linux-x64-gnu@1.0.0-rc.16':
     resolution: {integrity: sha512-FIb8+uG49sZBtLTn+zt1AJ20TqVcqWeSIyoVt0or7uAWesgKaHbiBh6OpA/k9v0LTt+PTrb1Lao133kP4uVxkg==}
     engines: {node: ^20.19.0 || >=22.12.0}
-    os:
-    - linux
-    cpu:
-    - x64
-    libc:
-    - glibc
+    cpu: [x64]
+    os: [linux]
+    libc: [glibc]
 
   '@rolldown/binding-linux-x64-musl@1.0.0-rc.16':
     resolution: {integrity: sha512-RuERhF9/EgWxZEXYWCOaViUWHIboceK4/ivdtQ3R0T44NjLkIIlGIAVAuCddFxsZ7vnRHtNQUrt2vR2n2slB2w==}
     engines: {node: ^20.19.0 || >=22.12.0}
-    os:
-    - linux
-    cpu:
-    - x64
-    libc:
-    - musl
+    cpu: [x64]
+    os: [linux]
+    libc: [musl]
 
   '@rolldown/binding-win32-arm64-msvc@1.0.0-rc.16':
     resolution: {integrity: sha512-tj7XRemQcOcFwv7qhpUxMTBbI5mWMlE4c1Omhg5+h8GuLXzyj8HviYgR+bB2DMDgRqUE+jiDleqSCRjx4aYk/Q==}
     engines: {node: ^20.19.0 || >=22.12.0}
-    os:
-    - win32
-    cpu:
-    - arm64
+    cpu: [arm64]
+    os: [win32]
 
   '@rolldown/binding-win32-x64-msvc@1.0.0-rc.16':
     resolution: {integrity: sha512-PH5DRZT+F4f2PTXRXR8uJxnBq2po/xFtddyabTJVJs/ZYVHqXPEgNIr35IHTEa6bpa0Q8Awg+ymkTaGnKITw4g==}
     engines: {node: ^20.19.0 || >=22.12.0}
-    os:
-    - win32
-    cpu:
-    - x64
+    cpu: [x64]
+    os: [win32]
 
   '@rolldown/pluginutils@1.0.0-rc.16':
     resolution: {integrity: sha512-45+YtqxLYKDWQouLKCrpIZhke+nXxhsw+qAHVzHDVwttyBlHNBVs2K25rDXrZzhpTp9w1FlAlvweV1H++fdZoA==}
@@ -151,8 +123,7 @@ packages:
   fsevents@2.3.3:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
-    os:
-    - darwin
+    os: [darwin]
 
   graphology-layout-forceatlas2@0.10.1:
     resolution: {integrity: sha512-ogzBeF1FvWzjkikrIFwxhlZXvD2+wlY54lqhsrWprcdPjopM2J9HoMweUmIgwaTvY4bUYVimpSsOdvDv1gPRFQ==}
@@ -185,66 +156,48 @@ packages:
   lightningcss-darwin-arm64@1.32.0:
     resolution: {integrity: sha512-RzeG9Ju5bag2Bv1/lwlVJvBE3q6TtXskdZLLCyfg5pt+HLz9BqlICO7LZM7VHNTTn/5PRhHFBSjk5lc4cmscPQ==}
     engines: {node: '>= 12.0.0'}
-    os:
-    - darwin
-    cpu:
-    - arm64
+    cpu: [arm64]
+    os: [darwin]
 
   lightningcss-linux-arm64-gnu@1.32.0:
     resolution: {integrity: sha512-0nnMyoyOLRJXfbMOilaSRcLH3Jw5z9HDNGfT/gwCPgaDjnx0i8w7vBzFLFR1f6CMLKF8gVbebmkUN3fa/kQJpQ==}
     engines: {node: '>= 12.0.0'}
-    os:
-    - linux
-    cpu:
-    - arm64
-    libc:
-    - glibc
+    cpu: [arm64]
+    os: [linux]
+    libc: [glibc]
 
   lightningcss-linux-arm64-musl@1.32.0:
     resolution: {integrity: sha512-UpQkoenr4UJEzgVIYpI80lDFvRmPVg6oqboNHfoH4CQIfNA+HOrZ7Mo7KZP02dC6LjghPQJeBsvXhJod/wnIBg==}
     engines: {node: '>= 12.0.0'}
-    os:
-    - linux
-    cpu:
-    - arm64
-    libc:
-    - musl
+    cpu: [arm64]
+    os: [linux]
+    libc: [musl]
 
   lightningcss-linux-x64-gnu@1.32.0:
     resolution: {integrity: sha512-V7Qr52IhZmdKPVr+Vtw8o+WLsQJYCTd8loIfpDaMRWGUZfBOYEJeyJIkqGIDMZPwPx24pUMfwSxxI8phr/MbOA==}
     engines: {node: '>= 12.0.0'}
-    os:
-    - linux
-    cpu:
-    - x64
-    libc:
-    - glibc
+    cpu: [x64]
+    os: [linux]
+    libc: [glibc]
 
   lightningcss-linux-x64-musl@1.32.0:
     resolution: {integrity: sha512-bYcLp+Vb0awsiXg/80uCRezCYHNg1/l3mt0gzHnWV9XP1W5sKa5/TCdGWaR/zBM2PeF/HbsQv/j2URNOiVuxWg==}
     engines: {node: '>= 12.0.0'}
-    os:
-    - linux
-    cpu:
-    - x64
-    libc:
-    - musl
+    cpu: [x64]
+    os: [linux]
+    libc: [musl]
 
   lightningcss-win32-arm64-msvc@1.32.0:
     resolution: {integrity: sha512-8SbC8BR40pS6baCM8sbtYDSwEVQd4JlFTOlaD3gWGHfThTcABnNDBda6eTZeqbofalIJhFx0qKzgHJmcPTnGdw==}
     engines: {node: '>= 12.0.0'}
-    os:
-    - win32
-    cpu:
-    - arm64
+    cpu: [arm64]
+    os: [win32]
 
   lightningcss-win32-x64-msvc@1.32.0:
     resolution: {integrity: sha512-Amq9B/SoZYdDi1kFrojnoqPLxYhQ4Wo5XiL8EVJrVsB8ARoC1PWW6VGtT0WKCemjy8aC+louJnjS7U18x3b06Q==}
     engines: {node: '>= 12.0.0'}
-    os:
-    - win32
-    cpu:
-    - x64
+    cpu: [x64]
+    os: [win32]
 
   lightningcss@1.32.0:
     resolution: {integrity: sha512-NXYBzinNrblfraPGyrbPoD19C1h9lfI/1mzgWYvXUTe414Gz/X1FD2XBZSZM7rRTrMA8JL3OtAaGifrIKhQ5yQ==}
@@ -485,7 +438,7 @@ snapshots:
 
   source-map-js@1.2.1: {}
 
-  tinyglobby@0.2.16(picomatch@4.0.4):
+  tinyglobby@0.2.16:
     dependencies:
       fdir: 6.5.0(picomatch@4.0.4)
       picomatch: 4.0.4
@@ -498,6 +451,6 @@ snapshots:
       picomatch: 4.0.4
       postcss: 8.5.10
       rolldown: 1.0.0-rc.16
-      tinyglobby: 0.2.16(picomatch@4.0.4)
+      tinyglobby: 0.2.16
     optionalDependencies:
       fsevents: 2.3.3
