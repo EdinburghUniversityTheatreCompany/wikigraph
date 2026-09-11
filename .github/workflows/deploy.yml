@@ -31,6 +31,7 @@ jobs:
         run: mise run build
         env:
           WIKI_PATH: ./bdlmwiki
+          SITE_BASE_PATH: /wikigraph/
       - name: configure pages
         uses: actions/configure-pages@v5
       - name: upload artifact

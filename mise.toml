@@ -12,6 +12,7 @@ postinstall = "aube install"
 WIKI_PATH = { default = "./bdlmwiki" }
 URL_ROOT = { default = "https://wiki.bedlamtheatre.co.uk" }
 GRAPH_PATH = { default = "./graph.json" }
+SITE_BASE_PATH = { default = "/" }
 
 [tasks.watch]
 depends = ["watch-analysis", "watch-site"]
@@ -40,9 +41,17 @@ run = '''
 cargo run -p wikigraph-scraper --release -- $WIKI_PATH $GRAPH_PATH --url-root $URL_ROOT
 '''
 
+[tasks.build-analysis.env]
+WIKI_PATH = { required = true }
+GRAPH_PATH = { required = true }
+URL_ROOT = { required = true }
+
 [tasks.build-site]
 wait_for = ["build-analysis"]
-run = "aube run vite build"
+run = "aube run vite build --base $SITE_BASE_PATH"
+
+[tasks.build-site.env]
+SITE_BASE_PATH = { required = true }
 
 [tasks.serve]
 depends = ["build"]
@@ -52,3 +61,4 @@ run = '''
 
 [tasks.serve.env]
 PORT = { default = "1111" }
+SITE_BASE_PATH = "/"
