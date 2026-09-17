@@ -23,6 +23,7 @@ export type LinkObject = {
 
 export interface LinkNodeInfo {
     harmonic_centrality: number,
+    betweenness_centrality: number,
     page_rank: number,
 }
 
@@ -83,6 +84,11 @@ export function writeToGraph(links: LinkGraph, graph: Graph, includeExternal?: b
 
     for (let i = 0; i < links.nodes.length; i++) {
         if (!graph.hasNode(i)) continue;
-        graph.updateNode(i, attrs => ({ ...attrs, importance: 5 + 2 * Math.sqrt(links.nodes[i][1].harmonic_centrality / 200) }));
+        const n = graph.neighbors(i).length;
+        const hc = links.nodes[i][1].harmonic_centrality / 200;
+        const bc = links.nodes[i][1].betweenness_centrality * 3000;
+        const pr = links.nodes[i][1].page_rank * 3000;
+        const area = n + hc + bc + pr
+        graph.updateNode(i, attrs => ({ ...attrs, importance: 5 + 4 * Math.sqrt(area) }));
     }
 }
