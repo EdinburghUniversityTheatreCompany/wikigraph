@@ -1,5 +1,6 @@
 [settings]
 lockfile = true
+lockfile_mode = "generate"
 
 [tools]
 rust = "latest"
