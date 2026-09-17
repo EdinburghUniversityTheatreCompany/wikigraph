@@ -1,0 +1,29 @@
+[tools]
+watchexec = "latest"
+"github:static-web-server/static-web-server" = "latest"
+
+[tasks."watch"]
+depends = ["watch:analysis", "watch:site"]
+
+[tasks."watch:site"]
+run = "aube run vite serve"
+
+[tasks."watch:analysis"]
+run = '''
+watchexec -w Cargo.toml -w Cargo.lock -w crates -r -- cargo run -p wikigraph-scraper $WIKI_PATH $GRAPH_PATH --url-root $URL_ROOT
+'''
+
+[tasks."watch:analysis".env]
+WIKI_PATH = { required = true }
+GRAPH_PATH = { required = true }
+URL_ROOT = { required = true }
+
+[tasks.serve]
+run = [
+  { task = "build" },
+  "static-web-server --port $PORT -d dist",
+]
+
+[tasks.serve.env]
+PORT = { default = "1111" }
+SITE_BASE_PATH = "/"
